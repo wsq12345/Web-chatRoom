@@ -1,9 +1,7 @@
-##chartRoom
-cd server 
-npm install
-node app.js
-
-cd client
-npm install
+##chartRoom  
+cd server  
+npm install  
+node app.jscd client  
+npm install  
 npm run start
 
