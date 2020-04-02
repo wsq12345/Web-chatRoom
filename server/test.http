@@ -1,0 +1,27 @@
+@url=http://localhost:3000
+@json=Content-Type: application/json
+###
+
+GET {{url}}
+
+###
+POST {{url}}/resiger
+{{json}}
+
+{
+    "username":"wsq",
+    "password":"123456"
+}
+###
+
+GET {{url}}/user
+{{json}}
+
+###
+POST {{url}}/login
+{{json}}
+
+{
+    "username":"wsq",
+    "password":"123456"
+}
