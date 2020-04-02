@@ -1,4 +1,4 @@
-##chartRoom  
+# chartRoom  
 cd server  
 npm install  
 node app.jscd client  
