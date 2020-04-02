@@ -1,5 +1,10 @@
 # chartRoom  
 
+# how to use  
+
+## mongoDb  
+please install and use automatically  
+
 ## server  
 cd server  
 npm install  
