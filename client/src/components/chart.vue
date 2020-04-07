@@ -19,8 +19,9 @@
             </div> -->
             <divInput class="input" v-model="item.text" @send="sendMessage"></divInput>
             <div class="control">
-                <el-button type="success" class="el-btn" @click="sendMessage()">发送</el-button>
                 <el-button type="success" class="el-btn" @click="emoji()">表情</el-button>
+                <el-button type="success" class="el-btn">图片</el-button>
+                <el-button type="success" class="el-btn" @click="sendMessage()">发送</el-button>
             </div>
         </div>
     </div>
@@ -97,7 +98,10 @@ export default {
         async gethistory(){
             let data=await history();
             for(let i=0;i<data.data.length;i++){
-                this.items[0].messages.push(data.data[i]);
+                let message={};
+                let date=data.data[i].date.slice(0,10)+' '+data.data[i].date.slice(11,19);
+                message={username:data.data[i].username,msg:data.data[i].msg,date};
+                this.items[0].messages.push(message);
             }     
         }
     },
@@ -161,9 +165,7 @@ export default {
             border-bottom: 1px solid #e4e4e4;
         }
         .control{
-            .el-btn{
-                float: right;
-            }
+            float: right;
         }
     }
 </style>
