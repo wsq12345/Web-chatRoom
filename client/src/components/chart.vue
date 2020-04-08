@@ -3,9 +3,9 @@
         <div class="content" v-for="item in items" :key="item.index" v-show="$store.state.charting==item.chart">
             <ul class="output">
                 <li v-for="message in item.messages" :key="message.index">
+                    <div class="time">{{message.date}}</div>
                     <div class="username">{{message.username}}</div>
                     <span class="msg" v-html="message.msg"></span>
-                    <div class="time">{{message.date}}</div>
                 </li>
             </ul>
             <!-- <textarea v-model="text" class="input" autofocus
@@ -20,7 +20,8 @@
             <divInput class="input" v-model="item.text" @send="sendMessage"></divInput>
             <div class="control">
                 <el-button type="success" class="el-btn" @click="emoji()">表情</el-button>
-                <el-button type="success" class="el-btn">图片</el-button>
+                <el-button type="success" class="el-btn" @click="pic()">图片</el-button>
+                <input type="file" accept="image/*" id="upload" @change="getFileName()">
                 <el-button type="success" class="el-btn" @click="sendMessage()">发送</el-button>
             </div>
         </div>
@@ -30,6 +31,7 @@
 <script>
 import divInput from './divInput'
 import emoji from './emoji'
+import dateFormat from '../utils/date'
 import {history} from '../api/api'
 export default {
     data(){
@@ -61,8 +63,15 @@ export default {
                 socket.onmessage = function(e){
                     let message = JSON.parse(e.data);
                     vm.items[0].messages.push(message);
+                    vm.scrollTop();
                 } 
             }
+        },
+        scrollTop(){//滚动条自动下移
+            var output=document.querySelector('.output');
+            setTimeout(()=>{
+                output.scrollTop=output.scrollHeight;
+            },50);
         },
         sendMessage(e){
             // if(window.event){
@@ -77,6 +86,7 @@ export default {
                 });
             }
             this.post();
+            this.scrollTop();
             // this.items[0].messages.push({username:'wsq',msg:this.items[0].text})
             this.items[0].text='';
                   
@@ -99,10 +109,23 @@ export default {
             let data=await history();
             for(let i=0;i<data.data.length;i++){
                 let message={};
-                let date=data.data[i].date.slice(0,10)+' '+data.data[i].date.slice(11,19);
+                let date=dateFormat(new Date(data.data[i].date),'yyyy-MM-dd HH:mm:ss');
                 message={username:data.data[i].username,msg:data.data[i].msg,date};
                 this.items[0].messages.push(message);
-            }     
+            }
+            this.scrollTop();     
+        },
+        pic(){
+            document.querySelector('#upload').click();
+        },
+        getFileName(){
+            var that=this;
+            var fileName=document.getElementById("upload").files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                that.items[0].text+=`<img src=${this.result} height="200px" width="240px">`;
+            };
+            reader.readAsDataURL(fileName);
         }
     },
     mounted(){
@@ -166,6 +189,9 @@ export default {
         }
         .control{
             float: right;
+            #upload{
+                display: none;
+            }
         }
     }
 </style>
