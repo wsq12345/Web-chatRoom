@@ -1,9 +1,10 @@
 <template>
     <div>
-        <div class="content" v-for="item in items" :key="item.index" v-show="$store.state.charting==item.chart">
+        <div class="content">
             <ul class="output">
-                <li v-for="message in item.messages" :key="message.index">
+                <li v-for="message in messages" :key="message.index">
                     <div class="time">{{message.date}}</div>
+                    <img :src="pic" class="pic">
                     <div class="username">{{message.username}}</div>
                     <span class="msg" v-html="message.msg"></span>
                 </li>
@@ -12,15 +13,16 @@
             @keydown.enter.exact="sendMessage()"
             @keydown.ctrl.enter="addNewLine()">
             </textarea> -->
-            <emoji class="emoji" v-if="item.emoji_show" @addEmoji="addEmoji"></emoji>
+            <emoji class="emoji" v-if="emoji_show" @addEmoji="addEmoji"></emoji>
             <!-- <div v-html="text" class="input" contenteditable="true" @input="changeText($event)"
             @keydown.enter.exact="sendMessage()"
             @keydown.ctrl.enter="addNewLine()">
             </div> -->
-            <divInput class="input" v-model="item.text" @send="sendMessage"></divInput>
+            <divInput class="input" v-model="text" @send="sendMessage"></divInput>
             <div class="control">
                 <el-button type="success" class="el-btn" @click="emoji()">表情</el-button>
-                <el-button type="success" class="el-btn" @click="pic()">图片</el-button>
+                <el-button type="success" class="el-btn" @click="sendPic()">图片</el-button>
+                <el-button type="success" class="el-btn">文件</el-button>
                 <input type="file" accept="image/*" id="upload" @change="getFileName()">
                 <el-button type="success" class="el-btn" @click="sendMessage()">发送</el-button>
             </div>
@@ -36,12 +38,10 @@ import {history} from '../api/api'
 export default {
     data(){
         return{
-            // text: '',
-            // emoji_show: false,
-            items:[  //记录聊天人及信息
-                {chart:'群聊',messages:[],text: '',emoji_show: false},
-                {chart:'test',messages:[],text: '',emoji_show: false}
-            ]
+            text: '',
+            emoji_show: false,
+            messages:[],
+            pic: 'http://127.0.0.1:3000/public/touxiang.jpg'
         }
     },
     methods:{
@@ -62,7 +62,7 @@ export default {
                 // 接收服务器的消息
                 socket.onmessage = function(e){
                     let message = JSON.parse(e.data);
-                    vm.items[0].messages.push(message);
+                    vm.messages.push(message);
                     vm.scrollTop();
                 } 
             }
@@ -79,7 +79,7 @@ export default {
             // }else{
             //     e.preventDefault();
             // }
-            if(!this.items[0].text){
+            if(!this.text){
                 return this.$message({
                     message:'内容为空',
                     type:'error'
@@ -87,22 +87,21 @@ export default {
             }
             this.post();
             this.scrollTop();
-            // this.items[0].messages.push({username:'wsq',msg:this.items[0].text})
-            this.items[0].text='';
+            this.text='';
                   
         },
         post(){
             let vm=this
             this.socket.send(JSON.stringify({
                 username:vm.$store.getters.getUsername,
-                msg:vm.items[0].text
+                msg:vm.text
             }))
         },
         emoji(){
-            this.items[0].emoji_show=this.items[0].emoji_show==true?false:true;
+            this.emoji_show=this.emoji_show==true?false:true;
         },
         addEmoji(data){
-            this.items[0].text+=data;
+            this.text+=data;
             this.emoji();
         },
         async gethistory(){
@@ -111,11 +110,11 @@ export default {
                 let message={};
                 let date=dateFormat(new Date(data.data[i].date),'yyyy-MM-dd HH:mm:ss');
                 message={username:data.data[i].username,msg:data.data[i].msg,date};
-                this.items[0].messages.push(message);
+                this.messages.push(message);
             }
             this.scrollTop();     
         },
-        pic(){
+        sendPic(){
             document.querySelector('#upload').click();
         },
         getFileName(){
@@ -123,7 +122,7 @@ export default {
             var fileName=document.getElementById("upload").files[0];
             var reader = new FileReader();
             reader.onload = function (e) {
-                that.items[0].text+=`<img src=${this.result} height="200px" width="240px">`;
+                that.text+=`<img src=${this.result} height="200px" width="240px">`;
             };
             reader.readAsDataURL(fileName);
         }
@@ -141,31 +140,29 @@ export default {
 
 <style lang="less" scoped>
     .content{
-        height: calc(~"100vh - 40px");
-        width: calc(~"100vw - 220px");
-        float: right;
+        height: calc(~"100vh - 80px");
+        // width: calc(~"100vw - 220px");
+        width: 100vw;
+        // float: right;
        .output{
             border-bottom: 2px solid #e4e4e4; 
-            height: calc(~"100vh - 176px");
+            height: calc(~"100vh - 216px");
             overflow: auto; 
-            .username{
-                background: gainsboro;
+            .pic{
                 width: 50px;
                 height: 50px;
-                line-height: 50px;
-                border-radius: 50%; 
-                color: red;
-                text-align: center;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                border-radius: 50%;
+                float: left;
+            }
+            .username{
+                opacity: 0.3;
             }
             .msg{
                 display: inline-block;
+                margin-left: 0.5rem;
                 position: relative;
                 background: aqua;  
-                max-width: calc(~"100vw - 320px");;
-                top: -30px;
-                left: 60px;
+                max-width: calc(~"100vw - 50px");
                 border-radius: 10px; 
                 padding: 5px;
                 white-space: pre-wrap;  //换行输出
@@ -180,7 +177,7 @@ export default {
             top: calc(~"100vh - 406px");
         }
         .input{
-            height: 84px;
+            height: 130px;
             width: 100%;
             border: none;
             resize: none;

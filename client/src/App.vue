@@ -1,12 +1,17 @@
 <template>
   <div id="app">
     <router-view/>
+    <footerGuide v-show="$route.meta.isShow"></footerGuide>
   </div>
 </template>
 
 <script>
+import footerGuide from './components/footerGuide'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    footerGuide
+  }
 }
 </script>
 

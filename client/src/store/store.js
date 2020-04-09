@@ -3,11 +3,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 const state={
     username: '',
-    charting: '群聊',
+    chating: '群聊',
 }
 const mutations={
-    getCharting(state,chart){
-        state.charting=chart;
+    getChating(state,chat){
+        state.chating=chat;
     }
 }
 

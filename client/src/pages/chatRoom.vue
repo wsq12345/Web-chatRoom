@@ -1,30 +1,31 @@
 <template>
     <div>
         <headerGuide :msg="name"></headerGuide>
-        <leftGuide></leftGuide>
-        <chart></chart>
+        <!-- <leftGuide></leftGuide> -->
+        <div style="height:40px"></div>
+        <chat></chat>
     </div>
 </template>
 
 <script>
 import headerGuide from '../components/headerGuide'
-import leftGuide from '../components/leftGuide'
-import chart from '../components/chart'
+// import leftGuide from '../components/leftGuide'
+import chat from '../components/chat'
 export default {
-    name: 'chartRoom',
+    name: 'chatRoom',
     data(){
         return{
         }
     },
     computed:{
         name(){
-            return this.$store.state.charting;
+            return this.$store.state.chating;
         }
     },
     components:{
         headerGuide,
-        leftGuide,
-        chart
+        // leftGuide,
+        chat
     }
 }
 </script>
