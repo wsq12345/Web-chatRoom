@@ -1,4 +1,4 @@
-# chartRoom  
+# chatRoom  
 
 # how to use  
 
