@@ -83,13 +83,15 @@
 						    params.append("username", this.formData1.username);
 						    params.append("password", this.formData1.password);
 							let log=await login(params);
-							if(log!='error'){
+							if(log=='error' ||log=='net'){
+								this.loading=false;
+								this.formData1={};
+							}
+							else{
 								this.$message.success('登录成功');
 								sessionStorage.setItem('user',this.formData1.username);//保存登录信息
 								this.$router.replace('/chartRoom');
-							}
-							this.loading=false;
-							this.formData1={};
+							}							
 						}
 						else{
 							return false;

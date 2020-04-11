@@ -21,7 +21,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
   .head{
-    z-index: 9999;
+    z-index: 1;
     background: rgb(140, 140, 240);
     width: 100%;
     height: 40px;

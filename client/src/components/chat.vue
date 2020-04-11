@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="content">
-            <ul class="output">
+            <ul class="output" v-loading="loading">
                 <li v-for="message in messages" :key="message.index">
                     <div class="time">{{message.date}}</div>
                     <img :src="pic" class="pic">
@@ -13,6 +13,7 @@
             @keydown.enter.exact="sendMessage()"
             @keydown.ctrl.enter="addNewLine()">
             </textarea> -->
+            <upload class="up" v-if="upload_show" @closeFile='closeFile' @sendFile='sendFile'></upload>
             <emoji class="emoji" v-if="emoji_show" @addEmoji="addEmoji"></emoji>
             <!-- <div v-html="text" class="input" contenteditable="true" @input="changeText($event)"
             @keydown.enter.exact="sendMessage()"
@@ -20,11 +21,11 @@
             </div> -->
             <divInput class="input" v-model="text" @send="sendMessage"></divInput>
             <div class="control">
-                <el-button type="success" class="el-btn" @click="emoji()">表情</el-button>
-                <el-button type="success" class="el-btn" @click="sendPic()">图片</el-button>
-                <el-button type="success" class="el-btn">文件</el-button>
+                <el-button size="small" type="primary" class="el-btn" @click="emoji()">表情</el-button>
+                <el-button size="small" type="primary" class="el-btn" @click="sendPic()">图片</el-button>
+                <el-button size="small" type="primary" class="el-btn" @click="openFile()">文件</el-button>
                 <input type="file" accept="image/*" id="upload" @change="getFileName()">
-                <el-button type="success" class="el-btn" @click="sendMessage()">发送</el-button>
+                <el-button size="small" type="primary" class="el-btn" @click="sendMessage()">发送</el-button>
             </div>
         </div>
     </div>
@@ -33,6 +34,7 @@
 <script>
 import divInput from './divInput'
 import emoji from './emoji'
+import upload from './upload'
 import dateFormat from '../utils/date'
 import {history} from '../api/api'
 export default {
@@ -40,8 +42,10 @@ export default {
         return{
             text: '',
             emoji_show: false,
-            messages:[],
-            pic: 'http://127.0.0.1:3000/public/touxiang.jpg'
+            loading: true,
+            messages: [],
+            upload_show: false,
+            pic: 'http://127.0.0.1:3000/public/image/touxiang.jpg'
         }
     },
     methods:{
@@ -106,23 +110,41 @@ export default {
         },
         async gethistory(){
             let data=await history();
+            if(data=='net'){
+                this.loading=false;
+                return;
+            }
             for(let i=0;i<data.data.length;i++){
                 let message={};
                 let date=dateFormat(new Date(data.data[i].date),'yyyy-MM-dd HH:mm:ss');
                 message={username:data.data[i].username,msg:data.data[i].msg,date};
                 this.messages.push(message);
             }
-            this.scrollTop();     
+            this.scrollTop();
+            this.loading=false;     
         },
         sendPic(){
             document.querySelector('#upload').click();
         },
+        openFile(){
+            this.upload_show=true;
+        },
+        closeFile(){
+            this.upload_show=false;
+        },
+        sendFile(data){
+            //console.log(data);
+            var vm=this;
+            this.socket.send(JSON.stringify({
+                username:vm.$store.getters.getUsername,
+                msg:`<a href=${data.url} download>${data.fileName}</a>`
+            }))
+        },
         getFileName(){
-            var that=this;
             var fileName=document.getElementById("upload").files[0];
             var reader = new FileReader();
-            reader.onload = function (e) {
-                that.text+=`<img src=${this.result} height="200px" width="240px">`;
+            reader.onload = e=>{
+                this.text+=`<img src=${this.result} height="200px" width="240px">`;
             };
             reader.readAsDataURL(fileName);
         }
@@ -133,7 +155,8 @@ export default {
     },
     components:{
         emoji,
-        divInput
+        divInput,
+        upload
     }
 }
 </script>
@@ -172,9 +195,17 @@ export default {
                 opacity: 0.4;
             }
         } 
+        .up{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            
+        }
         .emoji{
             position: absolute;
-            top: calc(~"100vh - 406px");
+            top: 50%;
+            margin-top: 5rem;
         }
         .input{
             height: 130px;

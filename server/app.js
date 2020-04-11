@@ -8,7 +8,9 @@ const router=express.Router();
 require('./server_modules/mongodb')
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: false})); //body-parser获取表单数据
-app.use(multer({ dest: './tmp/'}).array('image'));
+
+app.use('/public',express.static('./public'));
+app.use(multer({ dest: './tmp/'}).array('file'));
 
 app.all("*", function(req, res, next) { //跨域
    if (!req.get("Origin")) return next();
@@ -22,11 +24,14 @@ app.all("*", function(req, res, next) { //跨域
 
 app.post('/upload',async (req,res)=>{  //文件上传
   console.log(req.files[0]);
-  let des_file=__dirname+"/file/"+req.files[0].originalname; //保存目录 /file
+  let des_file=__dirname+"/public/file/"+req.files[0].originalname; //保存目录 /file
   fs.readFile(req.files[0].path,(err,data)=>{
     fs.writeFile(des_file,data,(err)=>{
       if(err) console.log(err);
-      res.send('ok');
+      res.send({
+        url:`http://localhost:3000/public/file/${req.files[0].originalname}`,
+        fileName:req.files[0].originalname
+      });
     })
   })
 })

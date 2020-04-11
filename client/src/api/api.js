@@ -17,3 +17,4 @@ import instance from './index'
 export const login=(data)=> instance.post('/user/login',data);
 export const register=(data)=> instance.post('/user/register',data);
 export const history=()=> instance.get('/message/history');
+export const upload=(data,config)=> instance.post('/upload',data,config);

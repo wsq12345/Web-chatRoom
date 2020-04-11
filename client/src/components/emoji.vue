@@ -43,31 +43,24 @@ export default {
 
 <style lang="less" scoped>
      .emoji-content {
-        margin: 50px;
-        width: 375px;
-        height: 210px;
+        width: 20rem;
+        height: auto;
         border-top: 1px solid #f3f3f3;
         overflow: hidden;
         background-color: #fff;
-
-        .emoji-container {
-          width: 10000px;
-        }
 
         .emoji-tabs {
           overflow: auto;
 
           .emoji-block {
-            width: 1170px;
-            height: 200px;
             float: left;
 
             span {
               display: inline-block;
               cursor: pointer;
-              font-size: 26px;
-              min-width: 48px;
-              line-height: 39px;
+              font-size: 1rem;
+              min-width: 1.5rem;
+              line-height: 1.5rem;
               text-align: center;
               list-style: none;
             }

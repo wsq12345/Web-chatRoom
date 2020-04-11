@@ -19,6 +19,7 @@ instance.interceptors.response.use(response => {
   }, error => {
     if (!error.response) {
         Message.error('网络连接失败');
+        return Promise.resolve('net');
     }
     else{
         Message.error(error.response.data.msg);
