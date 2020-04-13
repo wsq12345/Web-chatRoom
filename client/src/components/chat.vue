@@ -24,7 +24,7 @@
                 <el-button size="small" type="primary" class="el-btn" @click="emoji()">表情</el-button>
                 <el-button size="small" type="primary" class="el-btn" @click="sendPic()">图片</el-button>
                 <el-button size="small" type="primary" class="el-btn" @click="openFile()">文件</el-button>
-                <input type="file" accept="image/*" id="upload" @change="getFileName()">
+                <input type="file" accept="image/*" id="upload" @change="getFileName($event)">
                 <el-button size="small" type="primary" class="el-btn" @click="sendMessage()">发送</el-button>
             </div>
         </div>
@@ -36,7 +36,7 @@ import divInput from './divInput'
 import emoji from './emoji'
 import upload from './upload'
 import dateFormat from '../utils/date'
-import {history} from '../api/api'
+import {history,uploadImg} from '../api/api'
 export default {
     data(){
         return{
@@ -133,20 +133,40 @@ export default {
             this.upload_show=false;
         },
         sendFile(data){
-            //console.log(data);
+            console.log(data);
             var vm=this;
             this.socket.send(JSON.stringify({
                 username:vm.$store.getters.getUsername,
-                msg:`<a href=${data.url} download>${data.fileName}</a>`
+                msg:`<a href="${data.url}" download><i class="iconfont icon-wenjian" style="color:yellow;font-size:2rem"></i>${data.fileName}</a>`
             }))
         },
-        getFileName(){
-            var fileName=document.getElementById("upload").files[0];
-            var reader = new FileReader();
-            reader.onload = e=>{
-                this.text+=`<img src=${this.result} height="200px" width="240px">`;
+        getFileName(e){
+            // var fileName=document.getElementById("upload").files[0];
+            // var reader = new FileReader();
+            // reader.onload = e=>{
+            //     this.text+=`<img src=${this.result} height="200px" width="240px">`;
+            // };
+            // reader.readAsDataURL(fileName);
+            let tFiles = e.target.files[0];
+            //console.log(tFiles)
+            let param = new FormData();
+            param.append('image',tFiles,tFiles.name);
+            let config = {
+                    //添加请求头 
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
             };
-            reader.readAsDataURL(fileName);
+            uploadImg(param,config).then(response=>{
+                //console.log(response.data);
+                var vm=this;
+                this.socket.send(JSON.stringify({
+                    username:vm.$store.getters.getUsername,
+                    msg:`<img src="${response.data.url}" height="200px" width="240px"></img>`
+                }))
+            }).catch(e=>{
+                console.log(e);
+            })
         }
     },
     mounted(){
@@ -187,7 +207,7 @@ export default {
                 background: aqua;  
                 max-width: calc(~"100vw - 50px");
                 border-radius: 10px; 
-                padding: 5px;
+                padding: 0.5rem;
                 white-space: pre-wrap;  //换行输出
             }
             .time{
@@ -200,7 +220,6 @@ export default {
             top: 40%;
             left: 50%;
             transform: translateX(-50%);
-            
         }
         .emoji{
             position: absolute;

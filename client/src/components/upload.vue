@@ -31,7 +31,7 @@
             </ul>
             <el-button size="small" type="primary" class="btn" @click="close()">close</el-button>
         </div>
-        
+    
     </div>
 </template>
 

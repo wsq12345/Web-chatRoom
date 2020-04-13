@@ -1,5 +1,6 @@
 import axios from 'axios'
 import instance from './index'
+import { config } from 'shelljs';
 // const url="http://localhost:3000";
 // export const login=(username,password)=>{
 //     const params = new URLSearchParams();
@@ -18,3 +19,4 @@ export const login=(data)=> instance.post('/user/login',data);
 export const register=(data)=> instance.post('/user/register',data);
 export const history=()=> instance.get('/message/history');
 export const upload=(data,config)=> instance.post('/upload',data,config);
+export const uploadImg=(data,config)=> instance.post('/uploadImg',data,config);
