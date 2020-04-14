@@ -59,5 +59,6 @@
 <style lang="less" scoped>
     #div_input{
         overflow: auto;
+        resize: none;
     }
 </style>

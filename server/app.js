@@ -54,7 +54,8 @@ app.get('/',async (req,res)=>{
   res.sendFile(__dirname + '/' +'index.html');
 })
 app.use('/user', require('./router/user'));  //用户信息
-app.use('/message', require('./router/message'));  //用户信息
+app.use('/message', require('./router/message'));  
+app.use('/friend', require('./router/friend'));
 
 app.listen(3000,()=>{
   console.log("http://localhost:3000");

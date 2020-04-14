@@ -21,10 +21,10 @@ const server=ws.createServer((conn)=>{
 		boardcast(data);
 	});
 	conn.on("close", function (code,reason){
-		console.log("关闭连接");
+		//console.log("关闭连接");
 	})
 	conn.on("error", function (code, reason) {
-		console.log("异常关闭");
+		//console.log("异常关闭");
 	});
 }).listen(4000);
 
