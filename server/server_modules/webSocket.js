@@ -1,8 +1,16 @@
 const ws = require('nodejs-websocket');
 const moment = require('moment');
 const { messageModel } = require('../models/messages')
-let conns={};
-function boardcast(obj) {
+
+let users = []
+let conns = {};
+function boardcast(obj) { 
+	if(obj.bridge && obj.bridge.length){
+		obj.bridge.forEach(item=>{
+			conns[item].sendText(JSON.stringify(obj));
+		})
+		return;
+	}
 	server.connections.forEach(conn=> {
 		conn.sendText(JSON.stringify(obj));
 		// console.log(JSON.stringify(obj))
@@ -12,6 +20,18 @@ function boardcast(obj) {
 const server=ws.createServer((conn)=>{
 	conn.on("text", async (obj)=> {
 		obj = JSON.parse(obj);
+		// conns[''+obj.uid+''] = conn; 
+		// if(obj.type===1){ 
+		// 	let isuser = users.some(item=>{ 
+		// 		return item.uid === obj.uid 
+		// 	})
+		// 	if(!isuser){
+		// 		users.push({
+		// 			nickname: obj.nickname,
+		// 			uid: obj.uid
+		// 		})
+		// 	}
+		// }
 		let data={
 			username: obj.username,
 			msg: obj.msg,

@@ -1,7 +1,7 @@
 <template>
     <div>
         <headerGuide msg="消息"></headerGuide>
-        <div class="head"></div>
+        <div style="height:40px"></div>
         <ul class="message">
             <li v-for="(item,index) in items" :key="item.index" @click="chat(index)">
                 <img :src="pic" class="pic"><div class="name">{{item}}</div>
@@ -17,7 +17,7 @@ export default {
     data(){
         return{
             items:['群聊'],
-            pic:'http://127.0.0.1:3000/public/touxiang.jpg'
+            pic:'http://127.0.0.1:3000/public/image/touxiang.jpg'
         }
     },
     methods:{
@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style lang="less">
-    .head{
-        height: 40px;
-    }
     .message{
         li{
             .pic{

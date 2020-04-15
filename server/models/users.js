@@ -9,7 +9,8 @@ const userSchema=mongoose.Schema({
             return require('crypto').createHash('md5').update(val).digest('hex');
         }
     },
-    registerTime:{ type: Date}
+    registerTime:{ type: Date},
+    picUrl:{ type: String, default:"http://127.0.0.1:3000/public/image/touxiang.jpg"}
 })
 const UserModel=mongoose.model('user',userSchema);
 module.exports={
