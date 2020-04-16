@@ -20,25 +20,37 @@ function boardcast(obj) {
 const server=ws.createServer((conn)=>{
 	conn.on("text", async (obj)=> {
 		obj = JSON.parse(obj);
-		// conns[''+obj.uid+''] = conn; 
-		// if(obj.type===1){ 
-		// 	let isuser = users.some(item=>{ 
-		// 		return item.uid === obj.uid 
-		// 	})
-		// 	if(!isuser){
-		// 		users.push({
-		// 			nickname: obj.nickname,
-		// 			uid: obj.uid
-		// 		})
-		// 	}
-		// }
-		let data={
-			username: obj.username,
-			msg: obj.msg,
-			date: moment().format('YYYY-MM-DD HH:mm:ss')
+		conns[''+obj.uid+''] = conn; 
+		if(obj.type==1){ 
+			let isuser = users.some(item=>{ 
+				return item.uid === obj.uid 
+			})
+			if(!isuser){
+				users.push({
+					nickname: obj.nickname,
+					uid: obj.uid
+				})
+			}
+			let data={
+				username: obj.username,
+				msg: obj.msg,
+				date: moment().format('YYYY-MM-DD HH:mm:ss'),
+				type: obj.type,
+				friend: obj.friend,
+			}
+			await messageModel.create(data);
+			boardcast(data);
+		}else{
+			let data={
+				username: obj.username,
+				msg: obj.msg,
+				date: moment().format('YYYY-MM-DD HH:mm:ss'),
+				type: obj.type,
+			}
+			await messageModel.create(data);
+			boardcast(data);
 		}
-		await messageModel.create(data);
-		boardcast(data);
+		
 	});
 	conn.on("close", function (code,reason){
 		//console.log("关闭连接");

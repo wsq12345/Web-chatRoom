@@ -43,6 +43,9 @@ export default {
             text: '',
             emoji_show: false,
             loading: true,
+            type: 0, //表示群聊或者私聊
+            username: this.$store.getters.getUsername,
+            friend: '',
             messages: [],
             upload_show: false,
             pic: 'http://127.0.0.1:3000/public/image/touxiang.jpg'
@@ -109,7 +112,9 @@ export default {
             this.emoji();
         },
         async gethistory(){
-            let data=await history();
+            let param=new URLSearchParams();
+            param.append('type',this.type);
+            let data=await history(param);
             if(data=='net'){
                 this.loading=false;
                 return;

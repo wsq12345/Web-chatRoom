@@ -3,18 +3,19 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 const state={
     username: '',
-    chating: '群聊',
+    friend: '',
 }
 const mutations={
-    getChating(state,chat){
-        state.chating=chat;
-    }
+    
 }
 
 const getters={
     getUsername(state){
         return sessionStorage.getItem('user') || '';
     },
+    getFriend(state){
+        return sessionStorage.getItem('friend') || '';
+    }
 }
 
 const actions={
