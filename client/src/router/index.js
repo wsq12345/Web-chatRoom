@@ -6,6 +6,8 @@ import chatRoom from '../pages/chatRoom'
 import home from '../pages/home'
 import search from '../pages/search'
 import mypage from '../pages/mypage'
+import detail from '../pages/detail'
+import noFound from '../pages/noFound'
 
 Vue.use(Router)
 
@@ -52,6 +54,23 @@ export default new Router({
       meta:{
         isShow:true
       }
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: detail,
+      meta:{
+        isShow:false
+      }
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: noFound
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })

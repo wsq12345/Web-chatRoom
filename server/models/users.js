@@ -6,7 +6,7 @@ const userSchema=mongoose.Schema({
     username:{ type: String, unique: true},
     password:{ type: String,
         set(val){
-            return require('crypto').createHash('md5').update(val).digest('hex');
+            return require('crypto').createHash('md5').update(val).digest('hex');//md5加密
         }
     },
     registerTime:{ type: Date},

@@ -1,6 +1,6 @@
 <template>
   <header class="head">
-    <h4>{{msg}}</h4>
+    <h3>{{msg}}</h3>
   </header>
 </template>
 

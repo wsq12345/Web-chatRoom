@@ -127,7 +127,7 @@
 		#login{
 			height: 100vh;
 			background: url(../assets/bg1.jpg) no-repeat;
-			background-size: cover;
+			background-size: 100% 100%;
 			display: flex;
 			justify-content: center;
 			align-items: center;

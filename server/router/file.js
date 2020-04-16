@@ -37,6 +37,7 @@ const createFolder = function (folder) {
 
 router.post('/uploadImg', uploadImg, async (req, res) => { //图片上传
     //console.log(req.files[0]);
+    createFolder(dirname+"/public/image/");
     let des_file = dirname + "/public/image/" + req.files[0].originalname; //保存目录 /image
     fs.readFile(req.files[0].path, (err, data) => {
         fs.writeFile(des_file, data, (err) => {
@@ -52,6 +53,7 @@ router.post('/uploadImg', uploadImg, async (req, res) => { //图片上传
 })
 router.post('/upload', upload, async (req, res) => { //文件上传
     //console.log(req.files[0]);
+    createFolder(dirname+"/public/file/");
     let des_file = dirname + "/public/file/" + req.files[0].originalname; //保存目录 /file
     fs.readFile(req.files[0].path, (err, data) => {
         fs.writeFile(des_file, data, (err) => {

@@ -2,7 +2,6 @@
     <div>
         <headerGuide msg="搜索"></headerGuide>
         <div style="height:40px"></div>
-        <detail class="detail"></detail>
         <el-input placeholder="请输入内容" v-model="input">
             <el-button slot="append" icon="iconfont icon-search" @click="search"></el-button>
         </el-input>
@@ -16,7 +15,6 @@
 
 <script>
 import headerGuide from '../components/headerGuide'
-import detail from '../components/detail'
 import {searchFriend} from '../api/api'
 export default {
     data(){
@@ -39,8 +37,7 @@ export default {
         }
     },
     components:{
-        headerGuide,
-        detail
+        headerGuide
     }
 }
 </script>
@@ -62,12 +59,5 @@ export default {
             line-height: 50px;
             font-size: 1.5rem;
         }
-    }
-    .detail{
-        position: absolute;
-        top:50%;
-        left:50%;
-        margin-left: -10rem;
-        margin-top: -10rem;
     }
 </style>
