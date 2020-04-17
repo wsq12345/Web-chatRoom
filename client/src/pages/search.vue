@@ -33,7 +33,7 @@ export default {
             }        
         },
         showDetail(index){
-            
+            sessionStorage.setItem('friend',friends[index].username);
         }
     },
     components:{

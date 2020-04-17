@@ -92,16 +92,17 @@ export default {
                     type:'error'
                 });
             }
-            this.post();
+            this.post(this.text);
             this.scrollTop();
             this.text='';
                   
         },
-        post(){
+        post(data){
             let vm=this
             this.socket.send(JSON.stringify({
-                username:vm.$store.getters.getUsername,
-                msg:vm.text
+                username:vm.username,
+                msg:data,
+                type:vm.type
             }))
         },
         emoji(){
@@ -138,12 +139,9 @@ export default {
             this.upload_show=false;
         },
         sendFile(data){
-            console.log(data);
-            var vm=this;
-            this.socket.send(JSON.stringify({
-                username:vm.$store.getters.getUsername,
-                msg:`<a href="${data.url}" download><i class="iconfont icon-wenjian" style="color:yellow;font-size:2rem"></i>${data.fileName}</a>`
-            }))
+            //console.log(data);
+            let msg=`<a href="${data.url}" download><i class="iconfont icon-wenjian" style="color:yellow;font-size:2rem"></i>${data.fileName}</a>`;
+            this.post(msg);
         },
         getFileName(e){
             // var fileName=document.getElementById("upload").files[0];
@@ -164,11 +162,8 @@ export default {
             };
             uploadImg(param,config).then(response=>{
                 //console.log(response.data);
-                var vm=this;
-                this.socket.send(JSON.stringify({
-                    username:vm.$store.getters.getUsername,
-                    msg:`<img src="${response.data.url}" height="200px" width="240px"></img>`
-                }))
+                let msg=`<img src="${response.data.url}" height="200px" width="240px"></img>`;
+                this.post(msg);
             }).catch(e=>{
                 console.log(e);
             })

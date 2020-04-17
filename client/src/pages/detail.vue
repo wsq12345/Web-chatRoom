@@ -1,14 +1,26 @@
 <template>
     <div class="content">
         <headerGuide msg="个人信息"></headerGuide>
-        <div>
+        <div style="height:40px"></div>
+        <div class="box pic">
             <img :src=user.picUrl>
         </div>
-        <div>
-            {{user.username}}
+        <div class="info">
+            用户信息
         </div>
-        <div>
+        <div class="box">
+            昵称：{{user.username}}
+        </div>
+        <div class="box">
             注册时间：{{user.sign}}
+        </div>
+        <div class="control">
+            <div class="box">
+                <el-button type="success" class="btn">添加好友</el-button>
+            </div>
+            <div class="box">
+                <el-button type="danger" class="btn">删除好友</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -21,7 +33,7 @@ export default {
             user:{
                 username:'wsq',
                 picUrl:'',
-                sign:new Date()
+                sign:new Date().toLocaleDateString()
             }
         }
     },
@@ -35,10 +47,28 @@ export default {
 </script>
 <style lang="less" scoped>
     .content{
-        width: 20rem;
-        height: 20rem;
-        border: 1px solid;
-        z-index: 9999;
-        background: rgb(161, 148, 148);
+        .pic{
+            height: 20rem;
+        }
+        .info{
+            font-size: 1.2rem;
+            opacity: 0.4;
+        }
+        .box{
+            display: flex;
+            flex: 1;
+            font-size: 2rem;
+            text-align: center;
+            flex-direction: column;
+            .btn{
+                color: wheat;
+                margin-top: 0.2rem;
+            }
+        }
+        .control{
+            width: 100%;
+            position: absolute;
+            bottom: 2rem;
+        }
     }
 </style>

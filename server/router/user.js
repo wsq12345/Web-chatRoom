@@ -21,8 +21,10 @@ router.post('/register',async (req,res)=>{
     res.send(user);
   })
   
-  router.get('/user',async (req,res)=>{
-    const user=await UserModel.find();
+  router.post('/getUserInfo',async (req,res)=>{
+    const user=await UserModel.findOne({
+      username:req.body.username
+    });
     res.send(user);
   })
   router.post('/login',async (req,res)=>{

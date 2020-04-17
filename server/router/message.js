@@ -17,6 +17,12 @@ router.post('/history',async (req,res)=>{
             friend:{$in:[req.body.friend,req.body.username]},
             username:{$in:[req.body.friend,req.body.username]}
         })
+        if(messages)
+            res.send(messages);
+        else
+            res.status(404).send({
+                msg: '没有信息'
+            })
     }
 })
 
