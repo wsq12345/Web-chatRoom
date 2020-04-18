@@ -12,14 +12,14 @@
             昵称：{{user.username}}
         </div>
         <div class="box">
-            注册时间：{{user.sign}}
+            注册时间：{{user.registerTime}}
         </div>
         <div class="control">
             <div class="box">
-                <el-button type="success" class="btn">添加好友</el-button>
+                <el-button type="success" class="btn" @click="add()">添加好友</el-button>
             </div>
             <div class="box">
-                <el-button type="danger" class="btn">删除好友</el-button>
+                <el-button type="danger" class="btn" @click="del()">删除好友</el-button>
             </div>
         </div>
     </div>
@@ -27,18 +27,41 @@
 
 <script>
 import headerGuide from '../components/headerGuide'
+import { addFriend,delFriend } from '../api/api'
 export default {
     data(){
         return{
-            user:{
-                username:'wsq',
-                picUrl:'',
-                sign:new Date().toLocaleDateString()
-            }
+            user:{}
         }
     },
     methods:{
-
+        async add(){
+            let param = new URLSearchParams();
+            param.append('username',sessionStorage.getItem('user'));
+            param.append('friend',this.user.username);
+            param.append('status',0);
+            let result = await addFriend(param);
+            if(result!='error')
+                this.$message.success('好友请求发送成功');
+        },
+        async del(){
+            let param = new URLSearchParams();
+            param.append('username',sessionStorage.getItem('user'));
+            param.append('friend',this.user.username);
+            let result = await delFriend(param);
+            if(result!='error')
+                this.$message.success('好友已删除');
+        },
+        async show(){
+            let user=sessionStorage.getItem('friend');
+            const params = new URLSearchParams();
+            params.append('username',user);
+            this.$store.dispatch('getUserInfo',params);
+            this.user=this.$store.state.info;
+        }
+    },
+    mounted(){
+        this.show();
     },
     components:{
         headerGuide
@@ -49,6 +72,9 @@ export default {
     .content{
         .pic{
             height: 20rem;
+            img{
+                height: 20rem;
+            }
         }
         .info{
             font-size: 1.2rem;

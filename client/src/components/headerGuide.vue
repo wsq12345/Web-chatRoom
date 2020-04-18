@@ -1,5 +1,6 @@
 <template>
   <header class="head">
+    <i class="iconfont icon-fanhui" @click="back()" v-if="$route.meta.backShow"></i>
     <h3>{{msg}}</h3>
   </header>
 </template>
@@ -14,6 +15,12 @@ export default {
     return {
       
     }
+  },
+  methods:{
+    back(){
+      let route = sessionStorage.getItem('route');
+      this.$router.replace(route);
+    }
   }
 }
 </script>
@@ -21,6 +28,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
   .head{
+    i{
+      float: left;
+    }
     z-index: 1;
     background: rgb(140, 140, 240);
     width: 100%;

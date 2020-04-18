@@ -58,7 +58,7 @@ export default {
                 vm.socket = new WebSocket('ws://localhost:4000');
                 let socket = vm.socket;
                 socket.onopen = function(e){
-                    console.log("连接服务器成功");
+                    //console.log("连接服务器成功");
                 }
                 socket.onclose = function(e){
                     console.log("服务器关闭");

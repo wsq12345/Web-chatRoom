@@ -25,3 +25,12 @@ POST {{url}}/login
     "username":"wsq",
     "password":"123456"
 }
+
+###
+
+POST {{url}}/friend/delFriend
+{{json}}
+
+{
+    "username":"wsq"
+}

@@ -22,6 +22,7 @@ export default {
     },
     methods:{
         chat(index){
+            sessionStorage.setItem('route',this.$route.path);
             this.$router.replace('/chatRoom');
         }
     },

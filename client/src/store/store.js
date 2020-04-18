@@ -16,12 +16,12 @@ const mutations={
     setInfo(state,data){
         state.info.username=data.username;
         state.info.picUrl=data.picUrl;
-        state.info.registerTime=data.registerTime;
+        state.info.registerTime=new Date(data.registerTime).toLocaleDateString();
     },
     clearInfo(state){
-        state.info.username='';
-        state.info.picUrl='';
-        state.info.registerTime='';
+        for(var key in state.info){
+            state.info[key]='';
+        }
     }
 }
 
@@ -41,6 +41,9 @@ const actions={
     async getUserInfo({state,commit},data){
         const result=await getUserInfo(data);
         commit('setInfo',result.data);
+    },
+    async delInfo({state,commit}){
+        setTimeout(commit('clearInfo'),5);
     }
 }
 

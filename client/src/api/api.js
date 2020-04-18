@@ -12,3 +12,4 @@ export const searchFriend=(data)=> instance.post('/friend/searchFriend',data);//
 export const addFriend=(data)=> instance.post('/friend/addFriend',data);//添加朋友
 export const friendRequest=(data)=> instance.post('friend/friendRequest',data)//获取好友请求
 export const delFriend=(data)=> instance.post('/friend/delFriend',data);//删除朋友
+export const getFriendList=(data)=> instance.post('/friend/getFriendList',data)//获取好友列表

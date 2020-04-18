@@ -29,7 +29,10 @@ export default new Router({
     {
       path: '/chatRoom',
       name: 'chatRoom',
-      component: chatRoom
+      component: chatRoom,
+      meta:{
+        backShow:true
+      }
     },
     {
       path: '/home',
@@ -60,7 +63,8 @@ export default new Router({
       name: 'detail',
       component: detail,
       meta:{
-        isShow:false
+        isShow:false,
+        backShow:true
       }
     },
     {
