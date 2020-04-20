@@ -2,19 +2,19 @@
     <div>
         <headerGuide msg="好友"></headerGuide>
         <div style="height:40px"></div>
-        <div class="request">
-            请求列表
+        <div class="request" @click="showRequest()">
+            <i class="iconfont" :class="[requestShow?'icon-xiajiantou':'icon-iconfontjiantou5']"></i> 请求列表
         </div>
-        <ul>
-            <li v-for="(friend,index) in friendRequest" :key="index" @click="showBox(index)">
+        <ul class="list">
+            <li v-for="(friend,index) in friendRequest" :key="index" @click="showBox(index)" v-show="requestShow">
                 <img :src="friend.picUrl" class="pic"><div class="name">{{friend.username}}</div>
             </li>
         </ul>
-        <div class="friendList">
-            好友列表
+        <div class="friendList" @click="showFriend()">
+            <i class="iconfont" :class="[friendShow?'icon-xiajiantou':'icon-iconfontjiantou5']"></i> 好友列表
         </div>
-        <ul>
-            <li v-for="(friend,index) in friendList" :key="index" @click="showDetail(index)">
+        <ul class="list">
+            <li v-for="(friend,index) in friendList" :key="index" @click="showDetail(index)" v-show="friendShow">
                 <img :src="friend.picUrl" class="pic"><div class="name">{{friend.username}}</div>
             </li>
         </ul>
@@ -28,7 +28,9 @@ export default {
     data(){
         return{
             friendRequest:[],
-            friendList:[]
+            friendList:[],
+            friendShow: false,
+            requestShow: false
         }
     },
     methods:{
@@ -82,6 +84,12 @@ export default {
             sessionStorage.setItem('friend',this.friendList[index].username);
             sessionStorage.setItem('route',this.$route.path);
             this.$router.replace('/detail');
+        },
+        showFriend(){
+            this.friendShow = this.friendShow==true?false:true;
+        },
+        showRequest(){
+            this.requestShow = this.requestShow==true?false:true;
         }
     },
     mounted(){
@@ -96,9 +104,18 @@ export default {
 <style lang="less" scoped>
     .friendList,.request{
         font-size: 1.5rem;
-        color: crimson;
+        color: rgb(68, 41, 46);
         opacity: 0.4;
-        margin-top: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        .iconfont{
+            font-size: 1.5rem;
+        }
+    }
+    .list{
+        li{
+            margin-bottom: 1rem;
+        }
     }
     .pic{
             width: 50px;

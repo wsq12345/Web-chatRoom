@@ -6,6 +6,7 @@ const state={
     username: '',
     friend: '',
     type: '',
+    chating: '群聊',
     info:{
         username:'',
         picUrl:'',

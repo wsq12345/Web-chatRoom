@@ -25,6 +25,9 @@ export default {
     },
     methods:{
         async search(){
+            this.friends = [];
+            if(!this.input)
+                return;
             const params = new URLSearchParams();
             params.append('friend',this.input);
             let data = await searchFriend(params);

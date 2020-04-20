@@ -8,7 +8,7 @@
 		</div>
 		<div class="guide_item" @click="goto('/friendList')" :class="{on:'/friendList'===$route.path}">
 			<span class="item_icon">
-				<i class="iconfont icon-tuijian"></i>
+				<i class="iconfont icon-linkman-contacts_ico"></i>
 			</span>
 			<span class="guide_msg">好友</span>
 		</div>

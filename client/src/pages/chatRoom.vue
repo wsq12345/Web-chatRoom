@@ -1,7 +1,6 @@
 <template>
     <div>
         <headerGuide :msg="name"></headerGuide>
-        <!-- <leftGuide></leftGuide> -->
         <div style="height:40px"></div>
         <chat></chat>
     </div>
@@ -9,7 +8,6 @@
 
 <script>
 import headerGuide from '../components/headerGuide'
-// import leftGuide from '../components/leftGuide'
 import chat from '../components/chat'
 export default {
     name: 'chatRoom',
@@ -24,7 +22,6 @@ export default {
     },
     components:{
         headerGuide,
-        // leftGuide,
         chat
     }
 }

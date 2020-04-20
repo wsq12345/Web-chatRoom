@@ -8,7 +8,7 @@ router.post('/searchFriend',async (req,res)=>{
     let reg = new RegExp(req.body.friend);
     let friendExist = await UserModel.find({
         username:reg
-    })
+    },{username:1,picUrl:1})
     if(friendExist.length){
         return res.send(friendExist);
     }

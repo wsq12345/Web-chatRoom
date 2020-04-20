@@ -24,9 +24,10 @@ router.post('/register',async (req,res)=>{
   router.post('/getUserInfo',async (req,res)=>{
     const user=await UserModel.findOne({
       username:req.body.username
-    });
+    },{username:1,picUrl:1,registerTime:1});
     res.send(user);
   })
+
   router.post('/login',async (req,res)=>{
     const user=await UserModel.findOne({
       username:req.body.username
