@@ -8,6 +8,17 @@ A Web chatRoom builded by Vue、Node、WebSocket
 
 </div>  
 
+# 功能  
+- [x] 注册登录功能
+- [x] 聊天功能
+- [x] 查看历史记录
+- [x] 发送文件
+- [x] 发送文件
+- [x] 发送表情
+- [x] 好友资料查看
+- [x] 添加好友
+- [x] 搜索好友  
+
 # 项目环境  
 MongoDb、Node、NPM、Vue  
 
