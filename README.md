@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/YeomanLi/WebIM.svg?branch=master)](https://travis-ci.org/YeomanLi/WebIM)
 
-A Web IM builded by React、Typescript、Node
+A Web chatRoom builded by Vue、Node、WebSocket
 
 </div>
 # how to use  
