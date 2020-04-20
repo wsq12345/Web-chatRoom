@@ -2,7 +2,7 @@
 
 # Web chatRoom
 
-[!](https://travis-ci.org/YeomanLi/WebIM.svg?branch=master)
+![build](https://travis-ci.org/YeomanLi/WebIM.svg?branch=master)
 
 A Web chatRoom builded by Vue、Node、WebSocket
 
