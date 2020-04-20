@@ -1,7 +1,6 @@
-# chatRoom  
 <div align="center">
 
-# Web IM
+# Web chatRoom
 
 [![Build Status](https://travis-ci.org/YeomanLi/WebIM.svg?branch=master)](https://travis-ci.org/YeomanLi/WebIM)
 
