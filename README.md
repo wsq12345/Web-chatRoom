@@ -6,7 +6,8 @@
 
 A Web chatRoom builded by Vue、Node、WebSocket
 
-</div>
+</div>  
+
 # how to use  
 
 ## mongoDb  
