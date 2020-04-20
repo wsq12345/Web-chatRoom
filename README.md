@@ -8,10 +8,10 @@ A Web chatRoom builded by Vue、Node、WebSocket
 
 </div>  
 
-# how to use  
+# 项目环境  
+MongoDb、Node、NPM、Vue  
 
-## mongoDb  
-please install and use automatically  
+# 如何启动  
 
 ## server  
 cd server  
