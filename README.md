@@ -26,6 +26,21 @@ A Web chatRoom builded by Vue、Node、WebSocket
 # 项目环境  
 MongoDb、Node、NPM、Vue  
 
+# 目录结构
+* build - webpack config files
+* config - webpack config files
+* dist - build
+* src -your app
+    * api
+    * assets
+    * components - your vue components
+    * pages - your pages  
+    * router -routes
+    * stroe -vuex
+    * App.vue
+    * main.js - main file
+* static - static assets
+
 # 如何启动  
 
 ## server  
