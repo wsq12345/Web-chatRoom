@@ -30,8 +30,8 @@ MongoDb、Node、NPM、Vue
 
 ## server  
 ``` bash
-# cd client
-cd ./client
+# cd server
+cd ./server
 
 # install dependencies
 npm install
