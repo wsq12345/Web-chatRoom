@@ -49,6 +49,7 @@ MongoDb、Node、NPM、Vue
    * app.js
 
 # 如何启动  
+ 请自行安装并启动[MongDb](https://www.mongodb.com/)
  
 ``` bash
 # cd server
