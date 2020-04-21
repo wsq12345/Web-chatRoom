@@ -49,8 +49,7 @@ MongoDb、Node、NPM、Vue
    * app.js
 
 # 如何启动  
-
-## server  
+ 
 ``` bash
 # cd server
 cd ./server
@@ -61,10 +60,9 @@ npm install
 #serve with hot reload at localhost:3000
 node app.js  
 
-## client  
 ``` bash
 # cd client
-cd ./client
+cd ../client
 
 # install dependencies
 npm install
