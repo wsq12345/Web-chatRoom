@@ -24,7 +24,7 @@ A Web chatRoom builded by Vue、Node、WebSocket
 - [ ] 修改头像
 
 # 项目环境  
-MongoDb、Node、NPM、Vue  
+MongoDB、Node、NPM、Vue  
 
 # 目录结构
 * client
@@ -49,7 +49,7 @@ MongoDb、Node、NPM、Vue
    * app.js
 
 # 如何启动  
- 请自行安装并启动[MongDb](https://www.mongodb.com/)
+ 请自行安装并启动[MongDB](https://www.mongodb.com/)
  
 ``` bash
 # cd server
