@@ -54,9 +54,7 @@ export default {
         },
         async show(){
             let user=sessionStorage.getItem('friend');
-            const params = new URLSearchParams();
-            params.append('username',user);
-            this.$store.dispatch('getUserInfo',params);
+            this.$store.dispatch('getUserInfo',user);
             this.user=this.$store.state.info;
         }
     },

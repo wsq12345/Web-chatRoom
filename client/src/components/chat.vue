@@ -4,7 +4,7 @@
             <ul class="output" v-loading="loading">
                 <li v-for="message in messages" :key="message.index">
                     <div class="time">{{message.date}}</div>
-                    <img :src="pic" class="pic">
+                    <img :src="message.picUrl" class="pic">
                     <div class="username">{{message.username}}</div>
                     <span class="msg" v-html="message.msg"></span>
                 </li>
@@ -48,7 +48,7 @@ export default {
             friend: '',
             messages: [],
             upload_show: false,
-            pic: 'http://127.0.0.1:3000/public/image/touxiang.jpg'
+            //pic: 'http://127.0.0.1:3000/public/image/touxiang.jpg'
         }
     },
     methods:{
@@ -69,7 +69,11 @@ export default {
                 // 接收服务器的消息
                 socket.onmessage = function(e){
                     let message = JSON.parse(e.data);
+                    vm.$store.dispatch('getUserInfo',message.username);
+                    let picUrl = {picUrl:vm.$store.state.info.picUrl}
+                    message = {...message,...picUrl};
                     vm.messages.push(message);
+                    vm.$previewRefresh();
                     vm.scrollTop();
                 } 
             }
@@ -122,10 +126,17 @@ export default {
             }
             for(let i=0;i<data.data.length;i++){
                 let message={};
+                await this.$store.dispatch('getUserInfo',data.data[i].username);
                 let date=dateFormat(new Date(data.data[i].date),'yyyy-MM-dd HH:mm:ss');
-                message={username:data.data[i].username,msg:data.data[i].msg,date};
+                message={
+                    username:data.data[i].username,
+                    msg:data.data[i].msg,
+                    date,
+                    picUrl:this.$store.state.info.picUrl
+                };
                 this.messages.push(message);
             }
+            this.$previewRefresh();
             this.scrollTop();
             this.loading=false;     
         },
@@ -162,7 +173,7 @@ export default {
             };
             uploadImg(param,config).then(response=>{
                 //console.log(response.data);
-                let msg=`<img src="${response.data.url}" height="200px" width="240px"></img>`;
+                let msg=`<img src="${response.data.url}" height="200px" width="240px" preview="1" preview-text=""></img>`;
                 this.post(msg);
             }).catch(e=>{
                 console.log(e);

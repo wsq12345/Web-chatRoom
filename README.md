@@ -19,9 +19,10 @@ A Web chatRoom builded by Vue、Node、WebSocket
 - [x] 添加好友
 - [x] 搜索好友
 - [x] 删除好友
+- [x] 图片预览
+- [x] 修改头像
 - [ ] 私聊
-- [ ] 图片预览
-- [ ] 修改头像
+
 
 # 项目环境  
 MongoDB、Node、NPM、Vue  

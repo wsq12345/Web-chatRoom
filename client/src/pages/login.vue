@@ -90,7 +90,7 @@
 							else{
 								this.$message.success('登录成功');
 								sessionStorage.setItem('user',this.formData1.username);//保存登录信息
-								this.$router.replace('/friendList');
+								this.$router.replace('/home');
 							}							
 						}
 						else{

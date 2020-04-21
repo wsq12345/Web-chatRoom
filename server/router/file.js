@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const { UserModel } = require('../models/users');
 
 const dirname = path.resolve(__dirname, '..');
 const upload = multer({
@@ -66,6 +67,11 @@ router.post('/upload', upload, async (req, res) => { //文件上传
             });
         })
     })
+})
+
+router.post('/avatar',async (req,res)=>{
+    await UserModel.update({username:req.body.username},{$set:{picUrl:req.body.picUrl}});
+    res.send({msg:'修改成功'});
 })
 
 module.exports = router;

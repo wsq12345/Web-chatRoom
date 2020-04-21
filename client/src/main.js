@@ -5,21 +5,24 @@ import App from './App'
 import router from './router'
 import store from './store/store'
 import ElementUI from 'element-ui'
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI)
+Vue.use(preview)
 
 Vue.config.productionTip = false
 
-// router.beforeEach((to, from, next) => {
-//   // let user = JSON.parse(sessionStorage.getItem('user'));
-//   let user=sessionStorage.getItem('user');
-//   if (!user && to.path != '/login') { //用户没登录强制转到登录界面
-//     next({ path: '/login' })
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  // let user = JSON.parse(sessionStorage.getItem('user'));
+  let user=sessionStorage.getItem('user');
+  if (!user && to.path != '/login') { //用户没登录强制转到登录界面
+    next({ path: '/login' })
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

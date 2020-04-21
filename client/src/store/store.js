@@ -40,11 +40,17 @@ const getters={
 
 const actions={
     async getUserInfo({state,commit},data){
-        const result=await getUserInfo(data);
-        commit('setInfo',result.data);
+        const params = new URLSearchParams();
+        params.append('username',data);
+        const result=await getUserInfo(params);
+        return new Promise((resolve,reject)=>{
+            resolve(commit('setInfo',result.data));
+        })
     },
     async delInfo({state,commit}){
-        setTimeout(commit('clearInfo'),5);
+        return new Promise((resolve,reject)=>{
+            resolve(commit('clearInfo'));
+        })
     }
 }
 
