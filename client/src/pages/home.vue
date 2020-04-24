@@ -4,7 +4,7 @@
         <div style="height:40px"></div>
         <ul class="message">
             <li v-for="(item,index) in items" :key="item.index" @click="chat(index)">
-                <img :src="pic" class="pic"><div class="name">{{item}}</div>
+                <img :src="item.picUrl" class="pic"><div class="name">{{item.username}}</div>
             </li>
         </ul>
         <div class="foot"></div>
@@ -13,28 +13,49 @@
 
 <script>
 import headerGuide from '../components/headerGuide'
+import { getFriendList,getUserInfo } from '../api/api'
 export default {
     data(){
         return{
-            items:['群聊'],
-            pic:'http://127.0.0.1:3000/public/image/touxiang.jpg'
+            items:[{username:'群聊',picUrl:'http://127.0.0.1:3000/public/image/touxiang.jpg'}]
         }
+    },
+    mounted(){
+        this.show();
     },
     methods:{
         chat(index){
             sessionStorage.setItem('route',this.$route.path);
+            sessionStorage.setItem('friends',this.items[index].username);
             this.$router.replace('/chatRoom');
+        },
+        async show(){
+            const params = new URLSearchParams();
+            let user = sessionStorage.getItem('user');
+            params.append('username',user);
+            let result = await getFriendList(params);
+            if(result=='error')
+                return;
+            for(var i=0;i<result.data.length;i++){
+                let username=result.data[i].username;
+                let friend = result.data[i].friend;
+                const params = new URLSearchParams();
+                params.append('username',friend);
+                let data = await getUserInfo(params);
+                this.items.push(data.data);
+            }
         }
     },
     components:{
         headerGuide
-    }
+    },
 }
 </script>
 
 <style lang="less">
     .message{
         li{
+            margin-bottom: 1rem;
             .pic{
                 width: 50px;
                 height: 50px;

@@ -43,22 +43,30 @@ export default {
             text: '',
             emoji_show: false,
             loading: true,
-            type: 0, //表示群聊或者私聊
             username: this.$store.getters.getUsername,
-            friend: '',
+            friend: sessionStorage.getItem('friends'),
+            frienduid: sessionStorage.getItem('frienduid'),
             messages: [],
             upload_show: false,
-            //pic: 'http://127.0.0.1:3000/public/image/touxiang.jpg'
+            bridge: [],
+            uid: sessionStorage.getItem('uid')
         }
+    },
+    computed:{
+        type(){
+            return sessionStorage.getItem('friends')=='群聊'?0:1;
+        },
     },
     methods:{
         conWebSocket(){
             let vm = this;
+            if(this.type!=0)
+                this.bridge=[this.uid,this.frienduid];
             if(window.WebSocket){
-                vm.socket = new WebSocket('ws://localhost:4000');
+                vm.socket = new WebSocket('ws://localhost:8001');
                 let socket = vm.socket;
                 socket.onopen = function(e){
-                    //console.log("连接服务器成功");
+                    console.log("连接服务器成功");
                 }
                 socket.onclose = function(e){
                     console.log("服务器关闭");
@@ -69,12 +77,15 @@ export default {
                 // 接收服务器的消息
                 socket.onmessage = function(e){
                     let message = JSON.parse(e.data);
-                    vm.$store.dispatch('getUserInfo',message.username);
-                    let picUrl = {picUrl:vm.$store.state.info.picUrl}
-                    message = {...message,...picUrl};
-                    vm.messages.push(message);
-                    vm.$previewRefresh();
-                    vm.scrollTop();
+                    console.log(message)
+                    if(message.bridge.sort().join(',')==vm.bridge.sort().join(',')){
+                        vm.$store.dispatch('getUserInfo',message.username);
+                        let picUrl = {picUrl:vm.$store.state.info.picUrl}
+                        message = {...message,...picUrl};
+                        vm.messages.push(message);
+                        vm.$previewRefresh();
+                        vm.scrollTop();
+                    }    
                 } 
             }
         },
@@ -102,11 +113,25 @@ export default {
                   
         },
         post(data){
-            let vm=this
+            let vm=this;
+            if(this.type==0){
+                this.socket.send(JSON.stringify({
+                    username:vm.username,
+                    uid:vm.uid,
+                    msg:data,
+                    type:0,
+                    bridge:[]
+                }))
+                return;
+            }
             this.socket.send(JSON.stringify({
                 username:vm.username,
+                uid:vm.uid,
+                frienduid:vm.frienduid,
+                friend:vm.friend,
                 msg:data,
-                type:vm.type
+                bridge:vm.bridge,
+                type:1
             }))
         },
         emoji(){
@@ -119,6 +144,8 @@ export default {
         async gethistory(){
             let param=new URLSearchParams();
             param.append('type',this.type);
+            param.append('username',this.username);
+            param.append('friend',this.friend);
             let data=await history(param);
             if(data=='net'){
                 this.loading=false;

@@ -13,7 +13,7 @@ router.post('/history',async (req,res)=>{
             })
     }else{
         const messages=await messageModel.find({
-            type:0,
+            type:1,
             friend:{$in:[req.body.friend,req.body.username]},
             username:{$in:[req.body.friend,req.body.username]}
         })

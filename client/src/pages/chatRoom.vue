@@ -17,7 +17,7 @@ export default {
     },
     computed:{
         name(){
-            return this.$store.state.chating;
+            return sessionStorage.getItem('friends');
         }
     },
     components:{

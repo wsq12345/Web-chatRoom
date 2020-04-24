@@ -30,12 +30,6 @@ const getters={
     getUsername(state){
         return sessionStorage.getItem('user') || '';
     },
-    getFriend(state){
-        return sessionStorage.getItem('friend') || '';
-    },
-    getType(state){
-        return sessionStorage.getItem('type');
-    }
 }
 
 const actions={

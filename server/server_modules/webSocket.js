@@ -20,23 +20,27 @@ function boardcast(obj) {
 const server=ws.createServer((conn)=>{
 	conn.on("text", async (obj)=> {
 		obj = JSON.parse(obj);
-		conns[''+obj.uid+''] = conn; 
+		conns[''+obj.uid+''] = conn;
 		if(obj.type==1){ 
 			let isuser = users.some(item=>{ 
-				return item.uid === obj.uid 
+				return item.uid === obj.uid; 
 			})
 			if(!isuser){
 				users.push({
-					nickname: obj.nickname,
+					username: obj.username,
 					uid: obj.uid
 				})
 			}
 			let data={
 				username: obj.username,
+				friend: obj.friend,
 				msg: obj.msg,
 				date: moment().format('YYYY-MM-DD HH:mm:ss'),
-				type: obj.type,
-				friend: obj.friend,
+				type: 1,
+				uid: obj.uid,
+				frienduid: obj.frienduid,
+				bridge: obj.bridge,
+				users: users
 			}
 			await messageModel.create(data);
 			boardcast(data);
@@ -45,7 +49,8 @@ const server=ws.createServer((conn)=>{
 				username: obj.username,
 				msg: obj.msg,
 				date: moment().format('YYYY-MM-DD HH:mm:ss'),
-				type: obj.type,
+				type: 0,
+				bridge:[]
 			}
 			await messageModel.create(data);
 			boardcast(data);
