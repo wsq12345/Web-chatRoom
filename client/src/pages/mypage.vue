@@ -37,12 +37,17 @@ export default {
     },
     methods:{
         async show(){
+            if(this.$store.state.user.name){
+                this.user=this.$store.state.user;
+                return;
+            }
             let user = sessionStorage.getItem('user');
-            await this.$store.dispatch('getUserInfo',user);
+            let username = JSON.parse(user).name;
+            await this.$store.dispatch('getUserInfo',username);
             this.user = this.$store.state.info;
         },
         logout(){
-            sessionStorage.removeItem('user');
+            sessionStorage.clear();
             this.$router.replace('/login');
         },
         changeAvatar(){
@@ -61,7 +66,7 @@ export default {
              uploadImg(param,config).then(async response=>{
                 let url = response.data.url;
                 let params = new URLSearchParams();
-                params.append('username',sessionStorage.getItem('user'));
+                params.append('username',JSON.parse(sessionStorage.getItem('user')).name);
                 params.append('picUrl',url);
                 let msg = await avatar(params);
                 this.$message.success(msg.data.msg);

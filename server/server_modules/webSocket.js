@@ -21,7 +21,7 @@ const server=ws.createServer((conn)=>{
 	conn.on("text", async (obj)=> {
 		obj = JSON.parse(obj);
 		conns[''+obj.uid+''] = conn;
-		if(obj.type==1){ 
+		if(obj.type==-1){ 
 			let isuser = users.some(item=>{ 
 				return item.uid === obj.uid; 
 			})
@@ -33,18 +33,27 @@ const server=ws.createServer((conn)=>{
 			}
 			let data={
 				username: obj.username,
-				friend: obj.friend,
+				msg: '',
+				date: moment().format('YYYY-MM-DD HH:mm:ss'),
+				type: -1,
+				uid: obj.uid,
+				bridge: obj.bridge,
+			}
+			//await messageModel.create(data);
+			boardcast(data);
+		}else if(obj.type==1){
+			let data={
+				username: obj.username,
 				msg: obj.msg,
 				date: moment().format('YYYY-MM-DD HH:mm:ss'),
 				type: 1,
 				uid: obj.uid,
-				frienduid: obj.frienduid,
+				friend: obj.friend,
 				bridge: obj.bridge,
-				users: users
 			}
-			await messageModel.create(data);
 			boardcast(data);
-		}else{
+			await messageModel.create(data);
+		}else if(obj.type==0){
 			let data={
 				username: obj.username,
 				msg: obj.msg,

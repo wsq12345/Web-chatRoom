@@ -37,7 +37,7 @@ export default {
         async show(){
             const params = new URLSearchParams();
             let user = sessionStorage.getItem('user');
-            params.append('username',user);
+            params.append('username',JSON.parse(user).name);
             let result = await getFriendList(params);
             if(result=='error')
                 return;
@@ -81,7 +81,7 @@ export default {
                 this.$message.success(result.data.msg);
         },
         showDetail(index){
-            sessionStorage.setItem('friend',this.friendList[index].username);
+            sessionStorage.setItem('friends',this.friendList[index].username);
             sessionStorage.setItem('route',this.$route.path);
             this.$router.replace('/detail');
         },

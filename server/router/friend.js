@@ -9,7 +9,7 @@ router.post('/searchFriend',async (req,res)=>{
     let friendExist = await UserModel.find({
         username:reg
     },{username:1,picUrl:1})
-    if(friendExist.length){
+    if(friendExist){
         return res.send(friendExist);
     }
     res.status(404).send({msg:'搜索不到'})

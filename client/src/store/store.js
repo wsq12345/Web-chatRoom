@@ -3,7 +3,11 @@ import Vuex from 'vuex'
 import { getUserInfo } from '../api/api'
 Vue.use(Vuex);
 const state={
-    username: '',
+    user: {
+        name: '',
+        uid: '',
+        picUrl: '',
+    },
     friend: '',
     type: '',
     chating: '群聊',
@@ -14,6 +18,11 @@ const state={
     }
 }
 const mutations={
+    setUser(state,data){
+        state.user.name=data.name;
+        state.user.uid=data.uid;
+        state.user.picUrl=data.picUrl;
+    },
     setInfo(state,data){
         state.info.username=data.username;
         state.info.picUrl=data.picUrl;

@@ -88,8 +88,11 @@
 								this.formData1={};
 							}
 							else{
-								this.$message.success('登录成功');
-								sessionStorage.setItem('user',this.formData1.username);//保存登录信息
+								sessionStorage.setItem('user',JSON.stringify({
+									uid:log.data.response.uid,
+									name:log.data.response.name
+								}));//保存登录信息
+								this.$message.success(log.data.msg);
 								this.$router.replace('/home');
 							}							
 						}

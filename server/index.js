@@ -10,9 +10,9 @@ let groups = [];
 function boardcast(obj) {
   if(obj.bridge && obj.bridge.length){
     obj.bridge.forEach(item=>{
+      console.log(conns[item]);
       conns[item].sendText(JSON.stringify(obj));
     })
-    console.log(JSON.stringify(obj))
     return;
   }
   if (obj.groupId) {
@@ -42,7 +42,7 @@ var server = ws.createServer(function(conn){
         })
         if(!isuser){
           users.push({
-            nickname: obj.nickname,
+            username: obj.username,
             uid: obj.uid,
             status: 1
           });
@@ -57,7 +57,7 @@ var server = ws.createServer(function(conn){
         boardcast({
           type: 1,
           date: moment().format('YYYY-MM-DD HH:mm:ss'),
-          msg: obj.msg,
+          msg: obj.username+'加入聊天室',
           users: users,
           groups: groups,
           uid: obj.uid,
@@ -77,11 +77,11 @@ var server = ws.createServer(function(conn){
         boardcast({
           type: 1,
           date: moment().format('YYYY-MM-DD HH:mm:ss'),
-          msg: obj.msg,
+          msg: obj.username+'退出了聊天室',
           users: users,
           groups: groups,
           uid: obj.uid,
-          nickname: obj.nickname,
+          username: obj.username,
           bridge: []
         });
         break;
@@ -92,17 +92,17 @@ var server = ws.createServer(function(conn){
           name: obj.groupName,
           users: [{
             uid: obj.uid,
-            nickname: obj.nickname
+            username: obj.username
           }]
         })
         boardcast({
           type: 1,
           date: moment().format('YYYY-MM-DD HH:mm:ss'),
-          msg: obj.nickname+'创建了群' + obj.groupName,
+          msg: obj.username+'创建了群' + obj.groupName,
           users: users,
           groups: groups,
           uid: obj.uid,
-          nickname: obj.nickname,
+          username: obj.username,
           bridge: obj.bridge
         });
         break;
@@ -113,16 +113,16 @@ var server = ws.createServer(function(conn){
         })[0]
         group.users.push({
           uid: obj.uid,
-          nickname: obj.nickname
+          username: obj.username
         })
         boardcast({
           type: 1,
           date: moment().format('YYYY-MM-DD HH:mm:ss'),
-          msg: obj.nickname+'加入了群' + obj.groupName,
+          msg: obj.username+'加入了群' + obj.groupName,
           users: users,
           groups: groups,
           uid: obj.uid,
-          nickname: obj.nickname,
+          username: obj.username,
           bridge: obj.bridge
         });
         break;
@@ -133,7 +133,7 @@ var server = ws.createServer(function(conn){
           date: moment().format('YYYY-MM-DD HH:mm:ss'),
           msg: obj.msg,
           uid: obj.uid,
-          nickname: obj.nickname,
+          username: obj.username,
           bridge: obj.bridge,
           groupId: obj.groupId,
           status: 1

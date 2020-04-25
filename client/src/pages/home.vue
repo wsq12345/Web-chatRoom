@@ -26,18 +26,21 @@ export default {
     methods:{
         chat(index){
             sessionStorage.setItem('route',this.$route.path);
-            sessionStorage.setItem('friends',this.items[index].username);
+            sessionStorage.setItem('friend',JSON.stringify({
+                name: this.items[index].username,
+                uid: this.items[index].uid,
+                type: this.items[index].username=='群聊'?0:1
+            }));
             this.$router.replace('/chatRoom');
         },
         async show(){
             const params = new URLSearchParams();
             let user = sessionStorage.getItem('user');
-            params.append('username',user);
+            params.append('username',JSON.parse(user).name);
             let result = await getFriendList(params);
             if(result=='error')
                 return;
             for(var i=0;i<result.data.length;i++){
-                let username=result.data[i].username;
                 let friend = result.data[i].friend;
                 const params = new URLSearchParams();
                 params.append('username',friend);

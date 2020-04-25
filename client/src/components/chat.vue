@@ -41,32 +41,41 @@ export default {
     data(){
         return{
             text: '',
+            socket: '',
             emoji_show: false,
             loading: true,
-            username: this.$store.getters.getUsername,
-            friend: sessionStorage.getItem('friends'),
-            frienduid: sessionStorage.getItem('frienduid'),
+            user: {
+                name:JSON.parse(sessionStorage.getItem('user')).name,
+                uid: JSON.parse(sessionStorage.getItem('user')).uid
+            },
+            friend: {
+                name:JSON.parse(sessionStorage.getItem('friend')).name,
+                uid: JSON.parse(sessionStorage.getItem('friend')).uid,
+                type: JSON.parse(sessionStorage.getItem('friend')).type//0表示群聊
+            },
             messages: [],
             upload_show: false,
-            bridge: [],
-            uid: sessionStorage.getItem('uid')
+            bridge: []
         }
-    },
-    computed:{
-        type(){
-            return sessionStorage.getItem('friends')=='群聊'?0:1;
-        },
     },
     methods:{
         conWebSocket(){
             let vm = this;
-            if(this.type!=0)
-                this.bridge=[this.uid,this.frienduid];
+            if(this.friend.type!=0)
+                this.bridge=[this.user.uid,this.friend.uid];
             if(window.WebSocket){
-                vm.socket = new WebSocket('ws://localhost:8001');
+                vm.socket = new WebSocket('ws://localhost:4000');
                 let socket = vm.socket;
                 socket.onopen = function(e){
                     console.log("连接服务器成功");
+                    vm.socket.send(JSON.stringify({
+                        uid: vm.user.uid,
+                        type: -1,//连接
+                        username: vm.user.name,
+                        msg: '',
+                        bridge: [],
+                        groupId: ''
+                    }))
                 }
                 socket.onclose = function(e){
                     console.log("服务器关闭");
@@ -77,7 +86,8 @@ export default {
                 // 接收服务器的消息
                 socket.onmessage = function(e){
                     let message = JSON.parse(e.data);
-                    console.log(message)
+                    if(message.msg=="")
+                        return;
                     if(message.bridge.sort().join(',')==vm.bridge.sort().join(',')){
                         vm.$store.dispatch('getUserInfo',message.username);
                         let picUrl = {picUrl:vm.$store.state.info.picUrl}
@@ -109,14 +119,13 @@ export default {
             }
             this.post(this.text);
             this.scrollTop();
-            this.text='';
-                  
+            this.text='';           
         },
         post(data){
             let vm=this;
-            if(this.type==0){
+            if(this.friend.type==0){
                 this.socket.send(JSON.stringify({
-                    username:vm.username,
+                    username:vm.user.name,
                     uid:vm.uid,
                     msg:data,
                     type:0,
@@ -125,13 +134,12 @@ export default {
                 return;
             }
             this.socket.send(JSON.stringify({
-                username:vm.username,
-                uid:vm.uid,
-                frienduid:vm.frienduid,
-                friend:vm.friend,
-                msg:data,
-                bridge:vm.bridge,
-                type:1
+                uid: vm.user.uid,
+                type: 1,
+                username: vm.user.name,
+                friend: vm.friend.name,
+                msg: data,
+                bridge: vm.bridge,
             }))
         },
         emoji(){
@@ -143,9 +151,9 @@ export default {
         },
         async gethistory(){
             let param=new URLSearchParams();
-            param.append('type',this.type);
-            param.append('username',this.username);
-            param.append('friend',this.friend);
+            param.append('type',this.friend.type);
+            param.append('username',this.user.name);
+            param.append('friend',this.friend.name);
             let data=await history(param);
             if(data=='net'){
                 this.loading=false;
@@ -188,8 +196,8 @@ export default {
             //     this.text+=`<img src=${this.result} height="200px" width="240px">`;
             // };
             // reader.readAsDataURL(fileName);
+
             let tFiles = e.target.files[0];
-            //console.log(tFiles)
             let param = new FormData();
             param.append('image',tFiles,tFiles.name);
             let config = {

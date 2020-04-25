@@ -36,7 +36,7 @@ export default {
             }        
         },
         showDetail(index){
-            sessionStorage.setItem('friend',this.friends[index].username);
+            sessionStorage.setItem('friends',this.friends[index].username);
             sessionStorage.setItem('route',this.$route.path);
             this.$router.replace('/detail');
         }

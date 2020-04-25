@@ -53,7 +53,7 @@ export default {
                 this.$message.success('好友已删除');
         },
         async show(){
-            let user=sessionStorage.getItem('friend');
+            let user=sessionStorage.getItem('friends');
             this.$store.dispatch('getUserInfo',user);
             this.user=this.$store.state.info;
         }

@@ -18,19 +18,21 @@ router.post('/register',async (req,res)=>{
       password:req.body.password,
       registerTime:moment().format('YYYY-MM-DD HH:mm:ss')
     })
-    res.send(user);
+    res.send({
+      msg:'注册成功'
+    });
   })
   
   router.post('/getUserInfo',async (req,res)=>{
     const user=await UserModel.findOne({
       username:req.body.username
-    },{username:1,picUrl:1,registerTime:1});
+    },{username:1,picUrl:1,registerTime:1,uid:1});
     res.send(user);
   })
 
   router.post('/login',async (req,res)=>{
     const user=await UserModel.findOne({
-      username:req.body.username
+      username:req.body.username,
     })
     if(!user){
       return res.status(502).send({
@@ -43,9 +45,14 @@ router.post('/register',async (req,res)=>{
         msg:'密码错误'
       })
     }
+    let response = {
+      name:user.username,
+      uid:user.uid,
+      picUrl:user.picUrl
+    };
     res.send({
-      user,
-      token:'token wsq'
+      response,
+      msg:'登录成功'
     })
   })
 

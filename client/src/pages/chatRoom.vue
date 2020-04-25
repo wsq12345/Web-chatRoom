@@ -17,7 +17,7 @@ export default {
     },
     computed:{
         name(){
-            return sessionStorage.getItem('friends');
+            return JSON.parse(sessionStorage.getItem('friend')).name;
         }
     },
     components:{
