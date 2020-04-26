@@ -23,7 +23,7 @@ A Web chatRoom builded by Vue、Node、WebSocket
 - [x] 文件下载
 - [x] 修改头像
 - [x] 群聊
-- [ ] 私聊
+- [x] 私聊
 
 
 # 项目环境  
