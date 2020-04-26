@@ -2,11 +2,11 @@
     <div>
         <div class="content">
             <ul class="output" v-loading="loading">
-                <li v-for="message in messages" :key="message.index">
+                <li v-for="message in messages" :key="message.index" :class="[message.username==user.name? 'right' : 'left']">
                     <div class="time">{{message.date}}</div>
                     <img :src="message.picUrl" class="pic">
                     <div class="username">{{message.username}}</div>
-                    <span class="msg" v-html="message.msg"></span>
+                    <div class="msg" v-html="message.msg"></div>
                 </li>
             </ul>
             <!-- <textarea v-model="text" class="input" autofocus
@@ -58,6 +58,9 @@ export default {
             bridge: []
         }
     },
+    computed:{
+        
+    },
     methods:{
         conWebSocket(){
             let vm = this;
@@ -84,13 +87,13 @@ export default {
                     console.log("连接出错");
                 }
                 // 接收服务器的消息
-                socket.onmessage = function(e){
+                socket.onmessage = async function(e){
                     let message = JSON.parse(e.data);
                     if(message.msg=="")
                         return;
                     if(message.bridge.sort().join(',')==vm.bridge.sort().join(',')){
-                        vm.$store.dispatch('getUserInfo',message.username);
-                        let picUrl = {picUrl:vm.$store.state.info.picUrl}
+                        await vm.$store.dispatch('getUserInfo',message.username);
+                        let picUrl = {picUrl:vm.$store.state.info.picUrl};
                         message = {...message,...picUrl};
                         vm.messages.push(message);
                         vm.$previewRefresh();
@@ -237,29 +240,60 @@ export default {
             border-bottom: 2px solid #e4e4e4; 
             height: calc(~"100vh - 216px");
             overflow: auto; 
-            .pic{
+            .left{
+                .pic{
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
                 float: left;
+                }
+                .username{
+                    opacity: 0.3;
+                }
+                .msg{
+                    display: inline-block;
+                    margin-left: 0.5rem;
+                    position: relative;
+                    background: aqua;  
+                    max-width: calc(~"100vw - 50px");
+                    border-radius: 10px; 
+                    padding: 0.5rem;
+                    white-space: pre-wrap;  //换行输出
+                }
+                .time{
+                    text-align: center;
+                    opacity: 0.4;
+                }
             }
-            .username{
-                opacity: 0.3;
-            }
-            .msg{
-                display: inline-block;
-                margin-left: 0.5rem;
-                position: relative;
-                background: aqua;  
-                max-width: calc(~"100vw - 50px");
-                border-radius: 10px; 
-                padding: 0.5rem;
-                white-space: pre-wrap;  //换行输出
-            }
-            .time{
-                text-align: center;
-                opacity: 0.4;
-            }
+            .right{
+                float: right;
+                width: 100%;
+                overflow: hidden;
+                .pic{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    float: right;
+                }
+                .username{
+                    float: right;
+                    opacity: 0.3;
+                }
+                .msg{
+                    float: right;
+                    display: inline-block;
+                    background: aqua;  
+                    max-width: calc(~"100vw - 50px");
+                    margin-top: 1.5rem;
+                    border-radius: 10px; 
+                    padding: 0.5rem;
+                    white-space: pre-wrap;  //换行输出
+                }
+                .time{
+                    text-align: center;
+                    opacity: 0.4;
+                }
+            }     
         } 
         .up{
             position: absolute;

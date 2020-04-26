@@ -73,7 +73,8 @@ export default {
         },
         async add(item,status){
             let param = new URLSearchParams();
-            param.append('username',sessionStorage.getItem('user'));
+            let user = sessionStorage.getItem('user');
+            param.append('username',JSON.parse(user).name);
             param.append('friend',this.friendRequest[item].username);
             param.append('status',status);
             let result = await addFriend(param);

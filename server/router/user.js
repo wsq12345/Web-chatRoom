@@ -26,7 +26,7 @@ router.post('/register',async (req,res)=>{
   router.post('/getUserInfo',async (req,res)=>{
     const user=await UserModel.findOne({
       username:req.body.username
-    },{username:1,picUrl:1,registerTime:1,uid:1});
+    },{username:1,picUrl:1,registerTime:1,_id:1});
     res.send(user);
   })
 
@@ -47,7 +47,7 @@ router.post('/register',async (req,res)=>{
     }
     let response = {
       name:user.username,
-      uid:user.uid,
+      uid:user._id,
       picUrl:user.picUrl
     };
     res.send({

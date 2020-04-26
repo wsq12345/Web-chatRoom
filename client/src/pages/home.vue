@@ -28,7 +28,7 @@ export default {
             sessionStorage.setItem('route',this.$route.path);
             sessionStorage.setItem('friend',JSON.stringify({
                 name: this.items[index].username,
-                uid: this.items[index].uid,
+                uid: this.items[index]._id,
                 type: this.items[index].username=='群聊'?0:1
             }));
             this.$router.replace('/chatRoom');
@@ -41,6 +41,8 @@ export default {
             if(result=='error')
                 return;
             for(var i=0;i<result.data.length;i++){
+                if(result.data[i].status!=1)
+                    return;
                 let friend = result.data[i].friend;
                 const params = new URLSearchParams();
                 params.append('username',friend);

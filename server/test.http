@@ -1,4 +1,4 @@
-@url=http://localhost:3000
+@url=http://localhost:3000/user
 @json=Content-Type: application/json
 ###
 
@@ -24,13 +24,4 @@ POST {{url}}/login
 {
     "username":"wsq",
     "password":"123456"
-}
-
-###
-
-POST {{url}}/friend/delFriend
-{{json}}
-
-{
-    "username":"wsq"
 }

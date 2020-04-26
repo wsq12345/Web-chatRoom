@@ -112,7 +112,7 @@
 							params.append("password", this.formData2.password1);
 							let log=await register(params);
 							if(log!='error'){
-								this.$message.success('注册成功');
+								this.$message.success(log.data.msg);
 							}
 							this.formData2={};
 						}

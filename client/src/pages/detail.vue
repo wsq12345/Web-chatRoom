@@ -37,7 +37,8 @@ export default {
     methods:{
         async add(){
             let param = new URLSearchParams();
-            param.append('username',sessionStorage.getItem('user'));
+            let user = sessionStorage.getItem('user');
+            param.append('username',JSON.parse(user).name);
             param.append('friend',this.user.username);
             param.append('status',0);
             let result = await addFriend(param);
@@ -46,7 +47,8 @@ export default {
         },
         async del(){
             let param = new URLSearchParams();
-            param.append('username',sessionStorage.getItem('user'));
+            let user = sessionStorage.getItem('user');
+            param.append('username',JSON.parse(user).name);
             param.append('friend',this.user.username);
             let result = await delFriend(param);
             if(result!='error')
