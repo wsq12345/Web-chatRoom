@@ -4,10 +4,14 @@
 			<h2>用户登录</h2>
 			<el-form label-position="top" :model="formData1" :rules="rules" ref="formData1">
 				<el-form-item label="用户名" prop="username">
-					<el-input v-model="formData1.username"></el-input>
+					<el-input v-model="formData1.username">
+						<template slot="prepend"><i class="iconfont icon-denglu"></i></template>
+					</el-input>
 				</el-form-item>
 				<el-form-item label="密码" prop="password">
-					<el-input v-model="formData1.password" type="password"></el-input>
+					<el-input v-model="formData1.password" type="password">
+						<template slot="prepend"><i class="iconfont icon-mima"></i></template>
+					</el-input>
 				</el-form-item>
 				<el-button class="login-btn" type="success" @click="submitForm('formData1')" :loading="loading">登录</el-button>
 				<el-button class="login-btn" type="success" @click="login=false,formData1={}">注册</el-button>
@@ -141,6 +145,9 @@
 				padding: 40px;
 				border-radius: 20px;
 				box-sizing: border-box;
+				.iconfont{
+					font-size: 2rem;
+				}
 				.login-btn{
 					width: 100px;
 				}
