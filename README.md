@@ -4,7 +4,7 @@
 
 ![build](https://travis-ci.org/YeomanLi/WebIM.svg?branch=master)
 
-A Web chatRoom builded by Vue、Node、WebSocket
+A Web chatRoom builded by Vue、Node、WebSocket  
 
 </div>  
 
