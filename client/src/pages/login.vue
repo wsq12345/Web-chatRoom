@@ -21,13 +21,19 @@
 			<h2>用户注册</h2>
 			<el-form label-position="top" :model="formData2" :rules="rules" ref="formData2">
 				<el-form-item label="用户名" prop="username1">
-					<el-input v-model="formData2.username1"></el-input>
+					<el-input v-model="formData2.username1">
+						<template slot="prepend"><i class="iconfont icon-denglu"></i></template>
+					</el-input>
 				</el-form-item>
 				<el-form-item label="密码" prop="password1">
-					<el-input v-model="formData2.password1" type="password"></el-input>
+					<el-input v-model="formData2.password1" type="password">
+						<template slot="prepend"><i class="iconfont icon-mima"></i></template>
+					</el-input>
 				</el-form-item>
 				<el-form-item label="再输一遍密码" prop="password2">
-					<el-input v-model="formData2.password2" type="password"></el-input>
+					<el-input v-model="formData2.password2" type="password">
+						<template slot="prepend"><i class="iconfont icon-mima"></i></template>
+					</el-input>
 				</el-form-item>
 				<el-button class="login-btn" type="success" @click="register('formData2')">注册</el-button>
 				<el-button class="login-btn" type="success" @click="login=true,formData2={}">返回</el-button>
