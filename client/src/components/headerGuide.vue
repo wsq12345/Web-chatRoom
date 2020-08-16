@@ -7,13 +7,13 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'headerGuide',
   props:{
     msg:String
   },
   data () {
     return {
-      
+
     }
   },
   methods:{

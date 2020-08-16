@@ -13,7 +13,7 @@ function boardcast(obj) {
 	}
 	server.connections.forEach(conn=> {
 		conn.sendText(JSON.stringify(obj));
-		// console.log(JSON.stringify(obj))
+		
 	})
 }
 
