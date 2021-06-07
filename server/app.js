@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const { server_ip } = require('./config');
 const app = express();
 const router=express.Router();
 require('./server_modules/mongodb')
@@ -29,7 +30,7 @@ app.use('/friend', require('./router/friend'));
 app.use('/file',require('./router/file'));
 
 app.listen(3000,()=>{
-  console.log("http://localhost:3000");
+  console.log(`http://${server_ip}:3000`);
 })
 require('./server_modules/webSocket');
 

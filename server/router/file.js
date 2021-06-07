@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { UserModel } = require('../models/users');
+const { server_ip } = require('../config');
 
 const dirname = path.resolve(__dirname, '..');
 const upload = multer({
@@ -46,7 +47,7 @@ router.post('/uploadImg', uploadImg, async (req, res) => { //图片上传
                 msg: 'error'
             });
             res.send({
-                url: `http://localhost:3000/public/image/${req.files[0].originalname}`,
+                url: `http://${server_ip}:3000/public/image/${req.files[0].originalname}`,
                 fileName: req.files[0].originalname
             });
         })
@@ -62,7 +63,7 @@ router.post('/upload', upload, async (req, res) => { //文件上传
                 msg: 'error'
             });
             res.send({
-                url: `http://localhost:3000/public/file/${req.files[0].originalname}`,
+                url: `http://${server_ip}:3000/public/file/${req.files[0].originalname}`,
                 fileName: req.files[0].originalname
             });
         })

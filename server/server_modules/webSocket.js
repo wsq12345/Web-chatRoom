@@ -1,6 +1,7 @@
 const ws = require('nodejs-websocket');
 const moment = require('moment');
-const { messageModel } = require('../models/messages')
+const { messageModel } = require('../models/messages');
+const { server_ip } = require('../config');
 
 let users = []
 let conns = {};
@@ -72,6 +73,6 @@ const server=ws.createServer((conn)=>{
 	conn.on("error", function (code, reason) {
 		//console.log("异常关闭");
 	});
-}).listen(4000);
+}).listen(4000,server_ip);
 
 module.exports = server;
