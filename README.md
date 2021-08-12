@@ -26,7 +26,7 @@ A Web chatRoom builded by Vue、Node、WebSocket
 - [x] 私聊
 
 # 效果预览
-![预览1](https://github.com/wsq12345/Web-chatRoom/blob/master/server/public/image/预览1.png) 
+![预览1](https://github.com/wsq12345/Web-chatRoom/blob/master/server/public/image/预览1.png)   
 ![预览2](https://github.com/wsq12345/Web-chatRoom/blob/master/server/public/image/预览2.png) 
 
 # 项目环境  
