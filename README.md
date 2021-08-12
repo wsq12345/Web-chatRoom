@@ -26,9 +26,10 @@ A Web chatRoom builded by Vue、Node、WebSocket
 - [x] 私聊
 
 # 效果预览
+<div align="center">
 ![预览1](https://github.com/wsq12345/Web-chatRoom/blob/master/server/public/image/预览1.png)   
 ![预览2](https://github.com/wsq12345/Web-chatRoom/blob/master/server/public/image/预览2.png) 
-
+</div> 
 # 项目环境  
 MongoDB、Node、NPM、Vue  
 
