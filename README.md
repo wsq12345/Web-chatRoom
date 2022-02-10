@@ -8,6 +8,9 @@ A Web chatRoom builded by Vue、Node、WebSocket
 
 </div>  
 
+# 在线体验  
+ 可访问[http://ilikewsq.com:8080](http://ilikewsq.com:8080)在线体验项目
+
 # 功能  
 - [x] 注册登录
 - [x] 聊天功能
